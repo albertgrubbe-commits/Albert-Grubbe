@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Albert Grubbe | Webløsninger der performer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ══════════════════════ RESET & TOKENS ══════════════════════ */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg:        #06060b;
+            --bg-card:   #111119;
+            --bg-card-h: #16161f;
+            --surface:   #0e0e17;
+            --border:    rgba(255,255,255,0.06);
+            --border-h:  rgba(255,255,255,0.10);
+            --text:      #eaeaef;
+            --text-sub:  #8d8da3;
+            --accent:    #6e8efb;
+            --accent-2:  #a777e3;
+            --grad:      linear-gradient(135deg, #6e8efb 0%, #a777e3 100%);
+            --r:         16px;
+            --r-sm:      10px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection { background: rgba(110,142,251,0.25); color: #fff; }
+
+        /* ══════════════════════ LAYOUT ═══════════════════════════════ */
+        .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+        .section   { padding: 130px 0; }
+
+        .section-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            background: var(--grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: clamp(1.9rem, 4vw, 2.7rem);
+            font-weight: 700;
+            line-height: 1.18;
+            letter-spacing: -0.025em;
+            margin-bottom: 18px;
+        }
+
+        .section-desc {
+            color: var(--text-sub);
+            max-width: 520px;
+            font-size: 1.05rem;
+            line-height: 1.75;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 68px;
+        }
+
+        .section-header .section-desc { margin: 0 auto; }
+
+        /* ══════════════════════ NAV ══════════════════════════════════ */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 18px 0;
+            background: rgba(6,6,11,0.65);
+            backdrop-filter: blur(24px) saturate(140%);
+            -webkit-backdrop-filter: blur(24px) saturate(140%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            text-decoration: none;
+            font-size: 1.3rem;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            font-weight: 400;
+        }
+
+        .logo strong {
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 36px;
+        }
+
+        .nav-links a {
+            color: var(--text-sub);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: color 0.25s;
+        }
+
+        .nav-links a:hover { color: #fff; }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        /* ══════════════════════ BUTTONS ══════════════════════════════ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 34px;
+            border-radius: 12px;
+            font-size: 0.93rem;
+            font-weight: 600;
+            font-family: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.35s cubic-bezier(.25,.8,.25,1);
+        }
+
+        .btn-primary {
+            background: var(--grad);
+            color: #fff;
+            box-shadow: 0 4px 28px rgba(110,142,251,0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(110,142,251,0.35), 0 0 0 1px rgba(110,142,251,0.15);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--border-h);
+            background: rgba(255,255,255,0.03);
+            transform: translateY(-2px);
+        }
+
+        /* ══════════════════════ HERO ═════════════════════════════════ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-top: 80px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%; left: 50%;
+            transform: translateX(-50%);
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(110,142,251,0.10) 0%, rgba(167,119,227,0.05) 40%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 200px;
+            background: linear-gradient(to top, var(--bg), transparent);
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 680px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 7px 18px;
+            background: rgba(110,142,251,0.07);
+            border: 1px solid rgba(110,142,251,0.18);
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 32px;
+        }
+
+        .hero-badge-dot {
+            width: 7px; height: 7px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2.2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%      { opacity: 0.35; transform: scale(0.85); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 7vw, 4.6rem);
+            font-weight: 900;
+            line-height: 1.04;
+            letter-spacing: -0.035em;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            background: var(--grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: clamp(1.05rem, 2vw, 1.18rem);
+            color: var(--text-sub);
+            max-width: 500px;
+            margin-bottom: 42px;
+            line-height: 1.8;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .hero-trust {
+            margin-top: 28px;
+            font-size: 0.82rem;
+            color: var(--text-sub);
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hero-trust span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hero-trust .check {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* ══════════════════════ SERVICES ═════════════════════════════ */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 44px 34px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(.25,.8,.25,1);
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: var(--grad);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .card:hover {
+            background: var(--bg-card-h);
+            border-color: rgba(110,142,251,0.12);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .card:hover::after { opacity: 1; }
+
+        .card-icon {
+            width: 54px; height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(110,142,251,0.07);
+            border: 1px solid rgba(110,142,251,0.10);
+            border-radius: 14px;
+            margin-bottom: 28px;
+            font-size: 1.35rem;
+        }
+
+        .card h3 {
+            font-size: 1.18rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+
+        .card p {
+            color: var(--text-sub);
+            font-size: 0.94rem;
+            line-height: 1.75;
+        }
+
+        /* ══════════════════════ PRICING ══════════════════════════════ */
+        #priser { background: var(--surface); }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            align-items: start;
+        }
+
+        .price-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 44px 34px;
+            transition: all 0.4s cubic-bezier(.25,.8,.25,1);
+            position: relative;
+        }
+
+        .price-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .price-card.pop {
+            border-color: rgba(110,142,251,0.25);
+            box-shadow: 0 0 80px rgba(110,142,251,0.06);
+        }
+
+        .price-badge {
+            position: absolute;
+            top: -1px; left: 50%;
+            transform: translateX(-50%);
+            background: var(--grad);
+            color: #fff;
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 5px 22px;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .price-tier {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-sub);
+            margin-bottom: 10px;
+        }
+
+        .price-amount {
+            font-size: 2.9rem;
+            font-weight: 900;
+            letter-spacing: -0.035em;
+            line-height: 1.1;
+            margin-bottom: 4px;
+        }
+
+        .price-amount small {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-sub);
+        }
+
+        .price-monthly {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            margin-bottom: 4px;
+            padding: 5px 14px;
+            background: rgba(110,142,251,0.06);
+            border: 1px solid rgba(110,142,251,0.12);
+            border-radius: 100px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .price-desc {
+            color: var(--text-sub);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-top: 16px;
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .price-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .price-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            line-height: 1.5;
+        }
+
+        .price-list li::before {
+            content: '\2713';
+            color: var(--accent);
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .price-list li[data-tip] {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .price-list li[data-tip]::after {
+            content: 'i';
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px; height: 16px;
+            border-radius: 50%;
+            background: rgba(110,142,251,0.10);
+            color: var(--accent);
+            font-size: 0.6rem;
+            font-weight: 800;
+            font-style: italic;
+            margin-left: 6px;
+            flex-shrink: 0;
+            transition: background 0.25s;
+        }
+
+        .price-list li[data-tip]:hover::after {
+            background: rgba(110,142,251,0.2);
+        }
+
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 0;
+            right: 0;
+            background: #1c1c2a;
+            border: 1px solid rgba(110,142,251,0.18);
+            border-radius: var(--r-sm);
+            padding: 14px 18px;
+            font-size: 0.84rem;
+            line-height: 1.65;
+            color: var(--text-sub);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 24px;
+            border: 6px solid transparent;
+            border-top-color: #1c1c2a;
+        }
+
+        .price-list li[data-tip].active .tooltip {
+            display: block;
+        }
+
+        .price-card .btn { width: 100%; }
+
+        /* ── Serviceaftale-forklaring ── */
+        .service-explainer {
+            margin-top: 80px;
+            max-width: 720px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .service-explainer-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 44px 48px;
+            display: flex;
+            gap: 32px;
+            align-items: flex-start;
+        }
+
+        .service-explainer-icon {
+            width: 52px; height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(110,142,251,0.07);
+            border: 1px solid rgba(110,142,251,0.10);
+            border-radius: 14px;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .service-explainer-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .service-explainer-card p {
+            color: var(--text-sub);
+            font-size: 0.94rem;
+            line-height: 1.75;
+        }
+
+        .service-explainer-points {
+            display: flex;
+            gap: 24px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .service-explainer-points span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.84rem;
+            color: var(--text-sub);
+        }
+
+        .service-explainer-points .check {
+            color: var(--accent);
+            font-weight: 800;
+        }
+
+        /* ══════════════════════ ABOUT ════════════════════════════════ */
+        .about-row {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .about-photo {
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(110,142,251,0.35);
+            box-shadow: 0 0 60px rgba(110,142,251,0.08);
+            flex-shrink: 0;
+        }
+
+        .about-body p {
+            color: var(--text-sub);
+            font-size: 1.05rem;
+            line-height: 1.85;
+        }
+
+        /* ══════════════════════ CONTACT ══════════════════════════════ */
+        #kontakt { background: var(--surface); }
+
+        .contact-box {
+            max-width: 640px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 52px 48px;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            text-align: left;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-sub);
+        }
+
+        .contact-form input,
+        .contact-form textarea,
+        .contact-form select {
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-sm);
+            padding: 15px 18px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            resize: vertical;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .contact-form select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238d8da3' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 18px center;
+            padding-right: 44px;
+            cursor: pointer;
+        }
+
+        .contact-form select option {
+            background: var(--bg-card);
+            color: var(--text);
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus,
+        .contact-form select:focus {
+            border-color: rgba(110,142,251,0.5);
+            box-shadow: 0 0 0 3px rgba(110,142,251,0.10), 0 0 16px rgba(110,142,251,0.06);
+        }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: rgba(141,141,163,0.5);
+        }
+
+        .contact-form textarea { min-height: 140px; }
+
+        .contact-form .btn { margin-top: 6px; padding: 16px; font-size: 1rem; }
+
+        .contact-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 28px 0;
+            color: var(--text-sub);
+            font-size: 0.8rem;
+        }
+
+        .contact-divider::before,
+        .contact-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .contact-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: color 0.25s;
+        }
+
+        .contact-email:hover { color: var(--accent); }
+
+        .contact-note {
+            margin-top: 24px;
+            font-size: 0.84rem;
+            color: var(--text-sub);
+            line-height: 1.7;
+        }
+
+        /* ── Succes-besked ── */
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .form-success.show {
+            display: block;
+        }
+
+        .form-success-icon {
+            width: 64px; height: 64px;
+            margin: 0 auto 20px;
+            background: rgba(110,142,251,0.08);
+            border: 1px solid rgba(110,142,251,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: var(--accent);
+        }
+
+        .form-success h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .form-success p {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* ══════════════════════ FOOTER ═══════════════════════════════ */
+        footer {
+            padding: 48px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            width: 40px; height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-sub);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .footer-links a:hover {
+            border-color: rgba(110,142,251,0.25);
+            background: rgba(110,142,251,0.05);
+            color: var(--accent);
+        }
+
+        footer p {
+            color: var(--text-sub);
+            font-size: 0.82rem;
+        }
+
+        /* ══════════════════════ ANIMATIONS ═══════════════════════════ */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ══════════════════════ RESPONSIVE ═══════════════════════════ */
+        @media (max-width: 900px) {
+            .cards-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                max-width: 460px;
+                margin: 0 auto;
+            }
+
+            .about-row {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .about-photo {
+                width: 200px;
+                height: 200px;
+                margin: 0 auto;
+            }
+
+            .service-explainer-card {
+                flex-direction: column;
+                gap: 20px;
+                padding: 32px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .section { padding: 90px 0; }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0; right: 0;
+                flex-direction: column;
+                background: rgba(6,6,11,0.96);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                padding: 28px;
+                gap: 22px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links.open { display: flex; }
+            .nav-toggle { display: flex; }
+
+            .hero h1 { font-size: 2.4rem; }
+            .hero-ctas { flex-direction: column; }
+            .hero-ctas .btn { width: 100%; }
+            .hero-trust { flex-direction: column; gap: 8px; }
+
+            .form-row { grid-template-columns: 1fr; }
+            .contact-card { padding: 32px 24px; }
+
+            .about-photo { width: 170px; height: 170px; }
+
+            .service-explainer-card { padding: 28px 24px; }
+            .service-explainer-points { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ════════════════════════ NAV ══════════════════════════════════ -->
+<nav>
+    <div class="container">
+        <a href="#" class="logo">Albert <strong>Grubbe</strong></a>
+        <ul class="nav-links">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#priser">Priser</a></li>
+            <li><a href="#om">Om mig</a></li>
+            <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- ════════════════════════ HERO ═════════════════════════════════ -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-inner">
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                Ledig til nye projekter
+            </div>
+            <h1>Jeg bygger <em>hjemmesider</em> der skaber resultater</h1>
+            <p class="hero-sub">Jeg samler design, hastighed og synlighed i en løsning, så du får en professionel online tilstedeværelse der rent faktisk konverterer besøgende til kunder.</p>
+            <div class="hero-ctas">
+                <a href="#kontakt" class="btn btn-primary">Start dit projekt &rarr;</a>
+                <a href="#services" class="btn btn-ghost">Se services</a>
+            </div>
+            <div class="hero-trust">
+                <span><span class="check">&#10003;</span> Hurtig levering</span>
+                <span><span class="check">&#10003;</span> Professionel rådgivning</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════ SERVICES ═════════════════════════════ -->
+<section class="section" id="services">
+    <div class="container">
+        <div class="section-header fade-up">
+            <p class="section-label">Services</p>
+            <h2 class="section-title">Alt du behøver under ét tag</h2>
+            <p class="section-desc">Jeg tilbyder tre kerneydelser, der tilsammen giver dig en hjemmeside som ser fantastisk ud, loader lynhurtigt og bliver fundet af dine kunder.</p>
+        </div>
+        <div class="cards-grid">
+            <div class="card fade-up">
+                <div class="card-icon">🎨</div>
+                <h3>Webdesign</h3>
+                <p>Jeg bygger en skræddersyet og moderne hjemmeside til dig, hvor der er fuld fokus på dine kunders oplevelse. Det vigtigste for mig er, at din side afspejler præcis hvem du er, så dine besøgende rent faktisk får lyst til at blive kunder.</p>
+            </div>
+            <div class="card fade-up">
+                <div class="card-icon">🔍</div>
+                <h3>SEO</h3>
+                <p>Jeg sørger for alt det tekniske bag facaden, så din side taler samme sprog som Google. Det betyder, at du bliver nemmere at finde for de helt rigtige mennesker, når de søger efter det, du tilbyder.</p>
+            </div>
+            <div class="card fade-up">
+                <div class="card-icon">⚡</div>
+                <h3>Hastighed</h3>
+                <p>Ingen gider vente på en langsom hjemmeside. Derfor optimerer jeg din kode og dine billeder, så din side loader lynhurtigt. Det giver dine kunder en bedre oplevelse og gør Google gladere for din forretning.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════ PRICING ══════════════════════════════ -->
+<section class="section" id="priser">
+    <div class="container">
+        <div class="section-header fade-up">
+            <p class="section-label">Prispakker</p>
+            <h2 class="section-title">Gennemsigtige priser, ingen overraskelser</h2>
+            <p class="section-desc">Her kan du se, hvad det koster. Alle pakker inkluderer responsivt design og grundlæggende SEO, så du er godt dækket ind fra start.</p>
+        </div>
+        <div class="pricing-grid">
+
+            <!-- Basis -->
+            <div class="price-card fade-up">
+                <p class="price-tier">Basis</p>
+                <p class="price-amount">4.995,- <small>kr</small></p>
+                <div class="price-monthly">+ 495,-/md. hosting &amp; vedligehold</div>
+                <p class="price-desc">Et godt valg hvis du er selvstændig eller freelancer og har brug for en professionel side, der gør et stærkt førstehåndsindtryk.</p>
+                <ul class="price-list">
+                    <li data-tip>One-page design<span class="tooltip">Hele din hjemmeside samlet på én lækker side. Det er overskueligt for brugeren og perfekt til at konvertere besøgende til kunder.</span></li>
+                    <li data-tip>Responsivt layout<span class="tooltip">Din side tilpasser sig automatisk, så den ser sprød ud på både iPhone, iPad og computerskærm.</span></li>
+                    <li data-tip>Kontaktformular<span class="tooltip">En direkte linje fra kunden til din indbakke. Ingen dikkedarer, bare nem kontakt.</span></li>
+                    <li data-tip>Hosting &amp; SSL inkluderet<span class="tooltip">Jeg sørger for "opbevaringen" af din side og det lille hængelås-ikon i browseren, så dine brugere kan surfe sikkert.</span></li>
+                    <li data-tip>Daglig backup<span class="tooltip">Hvis noget går galt, har vi en kopi fra i går. Du mister aldrig dit indhold.</span></li>
+                    <li data-tip>30 min. månedlig support/fixes<span class="tooltip">Har du brug for at få rettet en tekst eller skiftet et billede? Jeg fikser det hver måned uden ekstra regning.</span></li>
+                </ul>
+                <a href="#kontakt" class="btn btn-ghost">Kom i gang</a>
+            </div>
+
+            <!-- Erhverv -->
+            <div class="price-card pop fade-up">
+                <span class="price-badge">Mest populær</span>
+                <p class="price-tier">Erhverv</p>
+                <p class="price-amount">11.995,- <small>kr</small></p>
+                <div class="price-monthly">+ 595,-/md. hosting &amp; vedligehold</div>
+                <p class="price-desc">Til dig der driver en virksomhed og har brug for flere undersider, stærkere branding og avanceret funktionalitet.</p>
+                <ul class="price-list">
+                    <li>Alt i Basis-pakken</li>
+                    <li data-tip>Op til 5 undersider<span class="tooltip">Plads til at gå i dybden. F.eks. en dedikeret side til dine ydelser, en "Om os" og en blog.</span></li>
+                    <li data-tip>Skræddersyet design<span class="tooltip">Vi starter fra bunden. Intet standardskabelon-ræs – siden bliver bygget præcis efter din visuelle identitet.</span></li>
+                    <li data-tip>SEO-optimering<span class="tooltip">Jeg sætter siden op, så Google kan lide den. Det gør det markant nemmere for nye kunder at finde dig.</span></li>
+                    <li data-tip>Google Analytics opsætning<span class="tooltip">Se præcis hvor mange der besøger dig, og hvad de laver på siden. Data er vejen frem.</span></li>
+                    <li>1 times månedlig support/fixes</li>
+                </ul>
+                <a href="#kontakt" class="btn btn-primary">Vælg Erhverv</a>
+            </div>
+
+            <!-- Webshop -->
+            <div class="price-card fade-up">
+                <p class="price-tier">Webshop</p>
+                <p class="price-amount">19.995,- <small>kr</small></p>
+                <div class="price-monthly">+ 795,-/md. hosting &amp; vedligehold</div>
+                <p class="price-desc">Vil du sælge online? Så bygger jeg en komplet webshop til dig med betaling, produktstyring og alt hvad du skal bruge.</p>
+                <ul class="price-list">
+                    <li>Alt i Erhverv-pakken</li>
+                    <li>Komplet e-handel opsætning</li>
+                    <li data-tip>Betalingssystem<span class="tooltip">Gør det muligt for dine kunder at betale med kort eller MobilePay direkte på siden.</span></li>
+                    <li data-tip>Produktkatalog &amp; ordrestyring<span class="tooltip">Et nemt system bagved, hvor du selv kan oprette varer, styre lageret og printe labels.</span></li>
+                    <li data-tip>Fragtintegration<span class="tooltip">Automatisk beregning af fragtpriser og integration med f.eks. GLS eller PostNord, så det er nemt at sende pakker.</span></li>
+                    <li>1,5 times månedlig support/fixes</li>
+                </ul>
+                <a href="#kontakt" class="btn btn-ghost">Kom i gang</a>
+            </div>
+
+        </div>
+
+        <!-- Hvorfor serviceaftale -->
+        <div class="service-explainer fade-up">
+            <div class="service-explainer-card">
+                <div class="service-explainer-icon">🛡️</div>
+                <div>
+                    <h3>Hvorfor en serviceaftale?</h3>
+                    <p>Med en serviceaftale sørger jeg for, at din side altid er opdateret, sikker og lynhurtig. Du får hosting, backup, sikkerhedsopdateringer og løbende support, så du kan fokusere på det, du er bedst til: din forretning.</p>
+                    <div class="service-explainer-points">
+                        <span><span class="check">&#10003;</span> Hosting &amp; SSL</span>
+                        <span><span class="check">&#10003;</span> Daglig backup</span>
+                        <span><span class="check">&#10003;</span> Sikkerhedsopdateringer</span>
+                        <span><span class="check">&#10003;</span> Månedlig support</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════ ABOUT ════════════════════════════════ -->
+<section class="section" id="om">
+    <div class="container">
+        <div class="about-row fade-up">
+            <img src="albert.jpg" alt="Albert Grubbe" class="about-photo">
+            <div>
+                <p class="section-label">Om mig</p>
+                <h2 class="section-title">Personen bag skærmen</h2>
+                <div class="about-body">
+                    <p>Jeg hedder Albert. Jeg går i 2.g, men når jeg ikke er på gymnasiet, bygger jeg lynhurtige løsninger til nettet.</p>
+                    <p>Min filosofi er simpel: Det skal være hurtigt, det skal se skarpt ud, og det skal virke. Jeg droppede de smarte ord for længe siden til fordel for rent håndværk og kode, der rykker. Skal vi bygge noget fedt sammen?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════ CONTACT ══════════════════════════════ -->
+<section class="section" id="kontakt">
+    <div class="container">
+        <div class="contact-box">
+            <div class="section-header fade-up">
+                <p class="section-label">Kontakt</p>
+                <h2 class="section-title">Klar til at starte dit projekt?</h2>
+                <p class="section-desc">Udfyld formularen eller skriv direkte til mig. Jeg vender tilbage inden for 24 timer med et uforpligtende tilbud.</p>
+            </div>
+            <div class="contact-card fade-up">
+                <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="3dfa5b52-7cf3-4fba-a2b2-264c4a8f7f0a">
+                    <input type="hidden" name="subject" value="Ny henvendelse fra albertgrubbe.dk">
+                    <input type="hidden" name="from_name" value="Albert Grubbe Website">
+                    <input type="hidden" name="replyto" value="kontakt.albertgrubbe@outlook.dk">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Navn</label>
+                            <input type="text" id="name" name="name" placeholder="Dit fulde navn" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="din@email.dk" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="emne">Emne</label>
+                        <select id="emne" name="emne" required>
+                            <option value="" disabled selected>Vælg en pakke eller emne</option>
+                            <option value="Basis-pakke">Basis-pakke (4.995,-)</option>
+                            <option value="Erhverv-pakke">Erhverv-pakke (11.995,-)</option>
+                            <option value="Webshop-pakke">Webshop-pakke (19.995,-)</option>
+                            <option value="Andet">Andet</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Besked</label>
+                        <textarea id="message" name="message" placeholder="Fortæl mig om dit projekt. Hvad har du brug for, og hvad er dine mål?" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send besked &rarr;</button>
+                </form>
+
+                <div class="form-success" id="formSuccess">
+                    <div class="form-success-icon">&#10003;</div>
+                    <h3>Tak for din besked!</h3>
+                    <p>Jeg har modtaget din henvendelse og vender tilbage hurtigst muligt.</p>
+                </div>
+
+                <div class="contact-divider">eller skriv direkte</div>
+                <a href="mailto:kontakt.albertgrubbe@outlook.dk" class="contact-email">
+                    &#9993; kontakt.albertgrubbe@outlook.dk
+                </a>
+                <p class="contact-note">Jeg svarer typisk indenfor få timer i dagtimerne. Sender du en mail om aftenen, hører du fra mig næste morgen.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer>
+    <div class="container">
+        <div class="footer-links">
+            <a href="mailto:kontakt.albertgrubbe@outlook.dk" aria-label="Email">@</a>
+            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="#" aria-label="Instagram">ig</a>
+        </div>
+        <p>&copy; 2026 Albert Grubbe. Alle rettigheder forbeholdes.</p>
+    </div>
+</footer>
+
+<!-- ════════════════════════ SCRIPTS ══════════════════════════════ -->
+<script>
+    // Scroll-animationer
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+    // Tooltip toggle på prisfeatures
+    document.querySelectorAll('.price-list li[data-tip]').forEach(li => {
+        li.addEventListener('click', (e) => {
+            const wasActive = li.classList.contains('active');
+            document.querySelectorAll('.price-list li.active').forEach(el => el.classList.remove('active'));
+            if (!wasActive) li.classList.add('active');
+        });
+    });
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.price-list li[data-tip]')) {
+            document.querySelectorAll('.price-list li.active').forEach(el => el.classList.remove('active'));
+        }
+    });
+
+    // Web3Forms submit med succes-besked
+    const form = document.getElementById('contactForm');
+    const success = document.getElementById('formSuccess');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button[type="submit"]');
+        btn.textContent = 'Sender...';
+        btn.disabled = true;
+
+        try {
+            const res = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(Object.fromEntries(new FormData(form)))
+            });
+            const data = await res.json();
+            if (data.success) {
+                form.style.display = 'none';
+                success.classList.add('show');
+            } else {
+                btn.textContent = 'Noget gik galt. Prøv igen.';
+                btn.disabled = false;
+            }
+        } catch {
+            btn.textContent = 'Noget gik galt. Prøv igen.';
+            btn.disabled = false;
+        }
+    });
+</script>
+
+</body>
+</html>
