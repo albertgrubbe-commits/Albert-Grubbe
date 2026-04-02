@@ -603,6 +603,143 @@
             font-weight: 800;
         }
 
+        /* ══════════════════════ PORTFOLIO ════════════════════════════ */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .portfolio-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            overflow: hidden;
+            position: relative;
+            isolation: isolate;
+            will-change: transform;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+        }
+
+        .portfolio-card > * { position: relative; z-index: 2; }
+
+        .portfolio-card::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: calc(var(--r) + 2px);
+            pointer-events: none;
+            background: radial-gradient(
+                350px 350px at calc(var(--mx, 0) * 1px) calc(var(--my, 0) * 1px),
+                hsl(calc(225 + var(--mxp, 0) * 60) 90% 65% / 0.25),
+                transparent
+            );
+            background-attachment: fixed;
+            z-index: -1;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .portfolio-img {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            object-fit: cover;
+            display: block;
+            background: var(--surface);
+        }
+
+        .portfolio-body {
+            padding: 28px 30px 34px;
+        }
+
+        .portfolio-body h3 {
+            font-size: 1.18rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.01em;
+        }
+
+        .portfolio-body p {
+            color: var(--text-sub);
+            font-size: 0.94rem;
+            line-height: 1.75;
+        }
+
+        /* ══════════════════════ TESTIMONIALS ═════════════════════════ */
+        #testimonials { background: var(--surface); }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .testimonial-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 44px 34px;
+            position: relative;
+            isolation: isolate;
+            will-change: transform;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+        }
+
+        .testimonial-card > * { position: relative; z-index: 2; }
+
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: calc(var(--r) + 2px);
+            pointer-events: none;
+            background: radial-gradient(
+                350px 350px at calc(var(--mx, 0) * 1px) calc(var(--my, 0) * 1px),
+                hsl(calc(225 + var(--mxp, 0) * 60) 90% 65% / 0.25),
+                transparent
+            );
+            background-attachment: fixed;
+            z-index: -1;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .testimonial-quote-mark {
+            font-size: 3rem;
+            line-height: 1;
+            background: var(--grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-card blockquote {
+            font-size: 1.05rem;
+            font-style: italic;
+            color: var(--text);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+
+        .testimonial-author {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .testimonial-role {
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            margin-top: 2px;
+        }
+
         /* ══════════════════════ ABOUT ════════════════════════════════ */
         .about-row {
             display: grid;
@@ -883,7 +1020,9 @@
         /* ══════════════════════ RESPONSIVE ═══════════════════════════ */
         @media (max-width: 900px) {
             .cards-grid,
-            .pricing-grid {
+            .pricing-grid,
+            .portfolio-grid,
+            .testimonials-grid {
                 grid-template-columns: 1fr;
                 max-width: 460px;
                 margin: 0 auto;
@@ -950,10 +1089,11 @@
     <div class="container">
         <a href="#" class="logo">Albert <strong>Grubbe</strong></a>
         <ul class="nav-links">
-            <li><a href="#services">Services</a></li>
-            <li><a href="#priser">Priser</a></li>
-            <li><a href="#om">Om mig</a></li>
-            <li><a href="#kontakt">Kontakt</a></li>
+            <li><a href="index.html">Forside</a></li>
+            <li><a href="projekter.html">Projekter</a></li>
+            <li><a href="index.html#priser">Priser</a></li>
+            <li><a href="reviews.html">Anmeldelser</a></li>
+            <li><a href="index.html#kontakt">Kontakt</a></li>
         </ul>
         <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
             <span></span><span></span><span></span>

@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projekter | Albert Grubbe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ══════════════════════ RESET & TOKENS ══════════════════════ */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg:        #06060b;
+            --bg-card:   #111119;
+            --surface:   #0e0e17;
+            --border:    rgba(255,255,255,0.06);
+            --border-h:  rgba(255,255,255,0.10);
+            --text:      #eaeaef;
+            --text-sub:  #8d8da3;
+            --accent:    #6e8efb;
+            --accent-2:  #a777e3;
+            --grad:      linear-gradient(135deg, #6e8efb 0%, #a777e3 100%);
+            --r:         16px;
+            --r-sm:      10px;
+        }
+
+        html { scroll-behavior: smooth; background: #000; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: transparent;
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection { background: rgba(110,142,251,0.25); color: #fff; }
+
+        /* ══════════════════════ LAYOUT ═══════════════════════════════ */
+        .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+        .section   { padding: 130px 0; }
+
+        .section-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            background: var(--grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: clamp(1.9rem, 4vw, 2.7rem);
+            font-weight: 700;
+            line-height: 1.18;
+            letter-spacing: -0.025em;
+            margin-bottom: 18px;
+        }
+
+        .section-desc {
+            color: var(--text-sub);
+            max-width: 520px;
+            font-size: 1.05rem;
+            line-height: 1.75;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 68px;
+        }
+
+        .section-header .section-desc { margin: 0 auto; }
+
+        /* ══════════════════════ NAV ══════════════════════════════════ */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 18px 0;
+            background: rgba(6,6,11,0.5);
+            backdrop-filter: blur(30px) saturate(140%);
+            -webkit-backdrop-filter: blur(30px) saturate(140%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            text-decoration: none;
+            font-size: 1.3rem;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            font-weight: 400;
+        }
+
+        .logo strong {
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 36px;
+        }
+
+        .nav-links a {
+            color: var(--text-sub);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: color 0.25s;
+        }
+
+        .nav-links a:hover { color: #fff; }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        /* ══════════════════════ BUTTONS ══════════════════════════════ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 34px;
+            border-radius: 12px;
+            font-size: 0.93rem;
+            font-weight: 600;
+            font-family: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.35s cubic-bezier(.25,.8,.25,1);
+        }
+
+        .btn-primary {
+            background: var(--grad);
+            color: #fff;
+            box-shadow: 0 4px 28px rgba(110,142,251,0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(110,142,251,0.35), 0 0 0 1px rgba(110,142,251,0.15);
+        }
+
+        .btn-ghost {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            color: var(--text);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .btn-ghost:hover {
+            border-color: rgba(255,255,255,0.14);
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-2px);
+        }
+
+        /* ══════════════════════ HERO (compact for subpage) ══════════ */
+        .page-hero {
+            padding: 160px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero .container { position: relative; z-index: 1; }
+
+        .page-hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 900;
+            letter-spacing: -0.035em;
+            margin-bottom: 16px;
+        }
+
+        .page-hero h1 em {
+            font-style: normal;
+            background: var(--grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-hero p {
+            color: var(--text-sub);
+            font-size: 1.1rem;
+            max-width: 520px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ══════════════════════ PORTFOLIO GRID ═══════════════════════ */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+        }
+
+        .portfolio-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--r);
+            overflow: hidden;
+            will-change: transform;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border-color: rgba(110,142,251,0.15);
+        }
+
+        .portfolio-img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .portfolio-body {
+            padding: 30px 32px 36px;
+        }
+
+        .portfolio-tag {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: var(--grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        .portfolio-body h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.01em;
+        }
+
+        .portfolio-body p {
+            color: var(--text-sub);
+            font-size: 0.94rem;
+            line-height: 1.75;
+            margin-bottom: 24px;
+        }
+
+        .portfolio-body .btn {
+            padding: 11px 26px;
+            font-size: 0.85rem;
+        }
+
+        /* ══════════════════════ TECH TAGS ════════════════════════════ */
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .tech-tag {
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 100px;
+            background: rgba(110,142,251,0.08);
+            border: 1px solid rgba(110,142,251,0.12);
+            color: var(--accent);
+            letter-spacing: 0.02em;
+        }
+
+        /* ══════════════════════ COMING SOON ══════════════════════════ */
+        .portfolio-card.coming-soon {
+            opacity: 0.7;
+        }
+
+        .portfolio-card.coming-soon .portfolio-img {
+            position: relative;
+        }
+
+        .coming-soon-badge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 100px;
+            padding: 8px 22px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text);
+        }
+
+        .portfolio-card.coming-soon .portfolio-img-wrap {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portfolio-card.coming-soon .portfolio-img-wrap img {
+            filter: brightness(0.3);
+        }
+
+        /* ══════════════════════ CTA ══════════════════════════════════ */
+        .cta-section {
+            text-align: center;
+            padding: 100px 0 130px;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 14px;
+        }
+
+        .cta-section p {
+            color: var(--text-sub);
+            font-size: 1.05rem;
+            max-width: 440px;
+            margin: 0 auto 32px;
+            line-height: 1.75;
+        }
+
+        /* ══════════════════════ FOOTER ═══════════════════════════════ */
+        footer {
+            padding: 48px 0;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            width: 40px; height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            color: var(--text-sub);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .footer-links a:hover {
+            border-color: rgba(110,142,251,0.25);
+            background: rgba(110,142,251,0.05);
+            color: var(--accent);
+        }
+
+        footer p {
+            color: var(--text-sub);
+            font-size: 0.82rem;
+        }
+
+        /* ══════════════════════ SHADER BG ════════════════════════════ */
+        #shader-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        #shader-bg canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ══════════════════════ ANIMATIONS ═══════════════════════════ */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(32px);
+            }
+        }
+
+        .fade-up { opacity: 0; }
+        .fade-up.visible { opacity: 1; animation: fadeUp 0.7s ease backwards; }
+
+        /* ══════════════════════ RESPONSIVE ═══════════════════════════ */
+        @media (max-width: 900px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+                max-width: 520px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .section { padding: 90px 0; }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0; right: 0;
+                flex-direction: column;
+                background: rgba(6,6,11,0.96);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                padding: 28px;
+                gap: 22px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links.open { display: flex; }
+            .nav-toggle { display: flex; }
+
+            .page-hero { padding: 140px 0 60px; }
+            .page-hero h1 { font-size: 2rem; }
+
+            .cta-section { padding: 70px 0 90px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ════════════════════════ SHADER BACKGROUND ════════════════════ -->
+<div id="shader-bg"></div>
+
+<!-- ════════════════════════ NAV ══════════════════════════════════ -->
+<nav>
+    <div class="container">
+        <a href="index.html" class="logo">Albert <strong>Grubbe</strong></a>
+        <ul class="nav-links">
+            <li><a href="index.html">Forside</a></li>
+            <li><a href="projekter.html">Projekter</a></li>
+            <li><a href="index.html#priser">Priser</a></li>
+            <li><a href="reviews.html">Anmeldelser</a></li>
+            <li><a href="index.html#kontakt">Kontakt</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- ════════════════════════ HERO ═════════════════════════════════ -->
+<section class="page-hero">
+    <div class="container">
+        <p class="section-label">Portfolio</p>
+        <h1>Mine seneste <em>projekter</em></h1>
+        <p>Her er et udvalg af de løsninger jeg har bygget. Hvert projekt er skræddersyet til kundens behov og mål.</p>
+    </div>
+</section>
+
+<!-- ════════════════════════ PORTFOLIO ═════════════════════════════ -->
+<section class="section" id="portfolio">
+    <div class="container">
+        <div class="portfolio-grid">
+
+            <!-- AlbertGrubbe.dk -->
+            <div class="portfolio-card fade-up">
+                <img src="img/projekt1.png" alt="AlbertGrubbe.dk" class="portfolio-img">
+                <div class="portfolio-body">
+                    <span class="portfolio-tag">Portefølje / WebGL</span>
+                    <h3>AlbertGrubbe.dk</h3>
+                    <p>Udvikling af personlig tech-portefølje med fokus på avancerede WebGL-shadere, responsivt design og automatiseret deployment via Vercel.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">CSS3 (Glassmorphism)</span>
+                        <span class="tech-tag">JavaScript (Three.js)</span>
+                        <span class="tech-tag">Git/CLI</span>
+                    </div>
+                    <a href="https://albertgrubbe.dk" class="btn btn-ghost" target="_blank">Se projektet &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Dit projekt? -->
+            <div class="portfolio-card fade-up" style="display: flex; align-items: center; justify-content: center; min-height: 320px;">
+                <div class="portfolio-body" style="text-align: center; padding: 48px 32px;">
+                    <span class="portfolio-tag">Dit projekt?</span>
+                    <h3>Skal dit projekt være det næste?</h3>
+                    <p>Jeg er altid klar til nye udfordringer. Lad os tage en snak om, hvordan jeg kan hjælpe dig med at bygge noget fedt.</p>
+                    <a href="index.html#kontakt" class="btn btn-primary">Kontakt mig &rarr;</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════ CTA ══════════════════════════════════ -->
+<section class="cta-section fade-up">
+    <div class="container">
+        <p class="section-label">Klar til at starte?</p>
+        <h2>Skal dit projekt være det næste?</h2>
+        <p>Jeg er altid klar til nye udfordringer. Lad os tage en snak om, hvordan jeg kan hjælpe dig.</p>
+        <a href="index.html#kontakt" class="btn btn-primary">Start dit projekt &rarr;</a>
+    </div>
+</section>
+
+<!-- ════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer>
+    <div class="container">
+        <div class="footer-links">
+            <a href="mailto:kontakt.albertgrubbe@outlook.dk" aria-label="Email">@</a>
+            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="#" aria-label="Instagram">ig</a>
+        </div>
+        <p>&copy; 2026 Albert Grubbe. Alle rettigheder forbeholdes.</p>
+    </div>
+</footer>
+
+<!-- ════════════════════════ SCRIPTS ══════════════════════════════ -->
+<script>
+    // Scroll-animationer
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+</script>
+
+<!-- ════════════════════════ THREE.JS SHADER ══════════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+    const container = document.getElementById('shader-bg');
+    const scene = new THREE.Scene();
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    const material = new THREE.ShaderMaterial({
+        uniforms: {
+            iTime: { value: 0 },
+            iResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+        },
+        vertexShader: `
+            void main() {
+                gl_Position = vec4(position, 1.0);
+            }
+        `,
+        fragmentShader: `
+            uniform float iTime;
+            uniform vec2 iResolution;
+
+            #define NUM_OCTAVES 3
+
+            float rand(vec2 n) {
+                return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
+            }
+
+            float noise(vec2 p) {
+                vec2 ip = floor(p);
+                vec2 u = fract(p);
+                u = u*u*(3.0-2.0*u);
+                float res = mix(
+                    mix(rand(ip), rand(ip + vec2(1.0, 0.0)), u.x),
+                    mix(rand(ip + vec2(0.0, 1.0)), rand(ip + vec2(1.0, 1.0)), u.x), u.y);
+                return res * res;
+            }
+
+            float fbm(vec2 x) {
+                float v = 0.0;
+                float a = 0.3;
+                vec2 shift = vec2(100);
+                mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
+                for (int i = 0; i < NUM_OCTAVES; ++i) {
+                    v += a * noise(x);
+                    x = rot * x * 2.0 + shift;
+                    a *= 0.4;
+                }
+                return v;
+            }
+
+            void main() {
+                vec2 shake = vec2(sin(iTime * 1.2) * 0.005, cos(iTime * 2.1) * 0.005);
+                vec2 p = ((gl_FragCoord.xy + shake * iResolution.xy) - iResolution.xy * 0.5) / iResolution.y * mat2(6.0, -4.0, 4.0, 6.0);
+                vec2 v;
+                vec4 o = vec4(0.0);
+
+                float f = 2.0 + fbm(p + vec2(iTime * 5.0, 0.0)) * 0.5;
+
+                for (float i = 0.0; i < 35.0; i++) {
+                    v = p + cos(i * i + (iTime + p.x * 0.08) * 0.025 + i * vec2(13.0, 11.0)) * 3.5 + vec2(sin(iTime * 3.0 + i) * 0.003, cos(iTime * 3.5 - i) * 0.003);
+                    float tailNoise = fbm(v + vec2(iTime * 0.5, i)) * 0.3 * (1.0 - (i / 35.0));
+                    vec4 auroraColors = vec4(
+                        0.1 + 0.3 * sin(i * 0.2 + iTime * 0.4),
+                        0.3 + 0.5 * cos(i * 0.3 + iTime * 0.5),
+                        0.7 + 0.3 * sin(i * 0.4 + iTime * 0.3),
+                        1.0
+                    );
+                    vec4 currentContribution = auroraColors * exp(sin(i * i + iTime * 0.8)) / length(max(v, vec2(v.x * f * 0.015, v.y * 1.5)));
+                    float thinnessFactor = smoothstep(0.0, 1.0, i / 35.0) * 0.6;
+                    o += currentContribution * (1.0 + tailNoise * 0.8) * thinnessFactor;
+                }
+
+                o = tanh(pow(o / 100.0, vec4(1.6)));
+                gl_FragColor = o * 1.5;
+            }
+        `
+    });
+
+    const geometry = new THREE.PlaneGeometry(2, 2);
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    let frameId;
+    const animate = () => {
+        material.uniforms.iTime.value += 0.016;
+        renderer.render(scene, camera);
+        frameId = requestAnimationFrame(animate);
+    };
+    animate();
+
+    window.addEventListener('resize', () => {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        material.uniforms.iResolution.value.set(window.innerWidth, window.innerHeight);
+    });
+})();
+</script>
+
+</body>
+</html>
