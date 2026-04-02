@@ -308,28 +308,33 @@
             border-radius: var(--r);
             padding: 44px 34px;
             position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(.25,.8,.25,1);
+            isolation: isolate;
+            will-change: transform;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
         }
 
-        .card::after {
+        .card > * { position: relative; z-index: 2; }
+
+        /* Spotlight glow + border rim */
+        .card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: var(--grad);
-            opacity: 0;
-            transition: opacity 0.4s;
+            inset: -2px;
+            border-radius: calc(var(--r) + 2px);
+            pointer-events: none;
+            background: radial-gradient(
+                350px 350px at calc(var(--mx, 0) * 1px) calc(var(--my, 0) * 1px),
+                hsl(calc(225 + var(--mxp, 0) * 60) 90% 65% / 0.25),
+                transparent
+            );
+            background-attachment: fixed;
+            z-index: -1;
         }
 
         .card:hover {
-            background: var(--bg-card-h);
-            border-color: rgba(110,142,251,0.12);
-            transform: translateY(-6px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+            transform: translateY(-12px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
-
-        .card:hover::after { opacity: 1; }
 
         .card-icon {
             width: 54px; height: 54px;
@@ -340,7 +345,7 @@
             border: 1px solid rgba(110,142,251,0.10);
             border-radius: 14px;
             margin-bottom: 28px;
-            font-size: 1.35rem;
+            color: var(--accent);
         }
 
         .card h3 {
@@ -371,18 +376,24 @@
             border: 1px solid var(--border);
             border-radius: var(--r);
             padding: 44px 34px;
-            transition: all 0.4s cubic-bezier(.25,.8,.25,1);
             position: relative;
+            will-change: transform;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
         }
 
         .price-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+            transform: translateY(-12px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
 
         .price-card.pop {
             border-color: rgba(110,142,251,0.25);
             box-shadow: 0 0 80px rgba(110,142,251,0.06);
+        }
+
+        .price-card.pop:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 0 80px rgba(110,142,251,0.12);
         }
 
         .price-badge {
@@ -556,8 +567,8 @@
             background: rgba(110,142,251,0.07);
             border: 1px solid rgba(110,142,251,0.10);
             border-radius: 14px;
-            font-size: 1.3rem;
             flex-shrink: 0;
+            color: var(--accent);
         }
 
         .service-explainer-card h3 {
@@ -818,16 +829,55 @@
             font-size: 0.82rem;
         }
 
+        /* ══════════════════════ SPOTLIGHT (shared) ══════════════════ */
+        .price-card,
+        .service-explainer-card,
+        .contact-card {
+            isolation: isolate;
+        }
+
+        .price-card > *,
+        .service-explainer-card > *,
+        .contact-card > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .price-card::before,
+        .service-explainer-card::before,
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: calc(var(--r) + 2px);
+            pointer-events: none;
+            background: radial-gradient(
+                350px 350px at calc(var(--mx, 0) * 1px) calc(var(--my, 0) * 1px),
+                hsl(calc(225 + var(--mxp, 0) * 60) 90% 65% / 0.25),
+                transparent
+            );
+            background-attachment: fixed;
+            z-index: -1;
+        }
+
+        /* Keep price-badge above spotlight */
+        .price-badge { z-index: 3; }
+
         /* ══════════════════════ ANIMATIONS ═══════════════════════════ */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(32px);
+            }
+        }
+
         .fade-up {
             opacity: 0;
-            transform: translateY(32px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
         }
 
         .fade-up.visible {
             opacity: 1;
-            transform: translateY(0);
+            animation: fadeUp 0.7s ease backwards;
         }
 
         /* ══════════════════════ RESPONSIVE ═══════════════════════════ */
@@ -943,17 +993,17 @@
         </div>
         <div class="cards-grid">
             <div class="card fade-up">
-                <div class="card-icon">🎨</div>
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></div>
                 <h3>Webdesign</h3>
                 <p>Jeg bygger en skræddersyet og moderne hjemmeside til dig, hvor der er fuld fokus på dine kunders oplevelse. Det vigtigste for mig er, at din side afspejler præcis hvem du er, så dine besøgende rent faktisk får lyst til at blive kunder.</p>
             </div>
             <div class="card fade-up">
-                <div class="card-icon">🔍</div>
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
                 <h3>SEO</h3>
                 <p>Jeg sørger for alt det tekniske bag facaden, så din side taler samme sprog som Google. Det betyder, at du bliver nemmere at finde for de helt rigtige mennesker, når de søger efter det, du tilbyder.</p>
             </div>
             <div class="card fade-up">
-                <div class="card-icon">⚡</div>
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></div>
                 <h3>Hastighed</h3>
                 <p>Ingen gider vente på en langsom hjemmeside. Derfor optimerer jeg din kode og dine billeder, så din side loader lynhurtigt. Det giver dine kunder en bedre oplevelse og gør Google gladere for din forretning.</p>
             </div>
@@ -1028,7 +1078,7 @@
         <!-- Hvorfor serviceaftale -->
         <div class="service-explainer fade-up">
             <div class="service-explainer-card">
-                <div class="service-explainer-icon">🛡️</div>
+                <div class="service-explainer-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></div>
                 <div>
                     <h3>Hvorfor en serviceaftale?</h3>
                     <p>Med en serviceaftale sørger jeg for, at din side altid er opdateret, sikker og lynhurtig. Du får hosting, backup, sikkerhedsopdateringer og løbende support, så du kan fokusere på det, du er bedst til: din forretning.</p>
@@ -1048,7 +1098,7 @@
 <section class="section" id="om">
     <div class="container">
         <div class="about-row fade-up">
-            <img src="albert.jpg" alt="Albert Grubbe" class="about-photo">
+            <img src="albert.png" alt="Albert Grubbe" class="about-photo">
             <div>
                 <p class="section-label">Om mig</p>
                 <h2 class="section-title">Personen bag skærmen</h2>
@@ -1138,6 +1188,13 @@
         entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+    // Spotlight — track cursor for glow cards
+    document.addEventListener('pointermove', (e) => {
+        document.documentElement.style.setProperty('--mx', e.clientX);
+        document.documentElement.style.setProperty('--my', e.clientY);
+        document.documentElement.style.setProperty('--mxp', (e.clientX / window.innerWidth).toFixed(3));
+    });
 
     // Tooltip toggle på prisfeatures
     document.querySelectorAll('.price-list li[data-tip]').forEach(li => {
