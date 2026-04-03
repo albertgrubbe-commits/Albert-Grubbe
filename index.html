@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Albert Grubbe | Webløsninger der performer</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2306060b'/><text x='16' y='22' font-family='Arial,sans-serif' font-weight='900' font-size='16' fill='white' text-anchor='middle' letter-spacing='-1'>AG</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%228%22 fill=%22%2306060b%22/><text x=%2232%22 y=%2243%22 font-family=%22Arial,sans-serif%22 font-weight=%22900%22 font-size=%2228%22 fill=%22white%22 text-anchor=%22middle%22 letter-spacing=%22-2%22>AG</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -103,21 +103,13 @@
             align-items: center;
         }
 
-        .logo-icon {
-            font-size: 1.6rem;
+        .logo-text {
+            font-size: 1.5rem;
             font-weight: 900;
-            letter-spacing: -0.08em;
+            letter-spacing: -2px;
             color: #fff;
             line-height: 1;
-            position: relative;
-            display: inline-block;
-        }
-
-        .logo-icon span {
-            background: var(--grad);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            background: none;
         }
 
         .nav-links {
@@ -131,10 +123,10 @@
             text-decoration: none;
             font-size: 0.88rem;
             font-weight: 500;
-            transition: color 0.25s;
+            transition: color 0.3s ease;
         }
 
-        .nav-links a:hover { color: #fff; }
+        .nav-links a:hover { color: #a855f7; }
 
         .nav-toggle {
             display: none;
@@ -772,7 +764,11 @@
         .about-body p {
             color: var(--text-sub);
             font-size: 1.05rem;
-            line-height: 1.85;
+            line-height: 1.8;
+        }
+
+        .about-body p + p {
+            margin-top: 18px;
         }
 
         /* ══════════════════════ CONTACT ══════════════════════════════ */
@@ -822,8 +818,8 @@
         .contact-form textarea,
         .contact-form select {
             width: 100%;
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: #1a1a1a;
+            border: 1px solid #333;
             border-radius: var(--r-sm);
             padding: 15px 18px;
             font-size: 0.95rem;
@@ -852,8 +848,8 @@
         .contact-form input:focus,
         .contact-form textarea:focus,
         .contact-form select:focus {
-            border-color: rgba(110,142,251,0.5);
-            box-shadow: 0 0 0 3px rgba(110,142,251,0.10), 0 0 16px rgba(110,142,251,0.06);
+            border-color: #a855f7;
+            box-shadow: 0 0 0 3px rgba(168,85,247,0.15), 0 0 16px rgba(168,85,247,0.08);
         }
 
         .contact-form input::placeholder,
@@ -943,6 +939,12 @@
             padding: 48px 0;
             border-top: 1px solid var(--border);
             text-align: center;
+        }
+
+        .footer-logo {
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
         }
 
         .footer-links {
@@ -1098,7 +1100,7 @@
 <!-- ════════════════════════ NAV ══════════════════════════════════ -->
 <nav>
     <div class="container">
-        <a href="index.html" class="logo"><div class="logo-icon"><span>AG</span></div></a>
+        <a href="index.html" class="logo"><div class="logo-text">AG</div></a>
         <ul class="nav-links">
             <li><a href="index.html">Forside</a></li>
             <li><a href="projekter.html">Projekter</a></li>
@@ -1323,6 +1325,7 @@
 <!-- ════════════════════════ FOOTER ═══════════════════════════════ -->
 <footer>
     <div class="container">
+        <a href="index.html" class="footer-logo"><div class="logo-icon"><span>AG</span></div></a>
         <div class="footer-links">
             <a href="mailto:kontakt.albertgrubbe@outlook.dk" aria-label="Email">@</a>
             <a href="#" aria-label="LinkedIn">in</a>
