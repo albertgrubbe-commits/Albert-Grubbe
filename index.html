@@ -98,15 +98,25 @@
 
         .logo {
             text-decoration: none;
-            font-size: 1.3rem;
-            letter-spacing: -0.02em;
-            color: var(--text);
-            font-weight: 400;
+            display: flex;
+            align-items: center;
         }
 
-        .logo strong {
-            font-weight: 800;
-            color: var(--accent);
+        .logo-icon {
+            font-size: 1.6rem;
+            font-weight: 900;
+            letter-spacing: -0.08em;
+            color: #fff;
+            line-height: 1;
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo-icon span {
+            background: var(--grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .nav-links {
@@ -1087,7 +1097,7 @@
 <!-- ════════════════════════ NAV ══════════════════════════════════ -->
 <nav>
     <div class="container">
-        <a href="#" class="logo">Albert <strong>Grubbe</strong></a>
+        <a href="index.html" class="logo"><div class="logo-icon"><span>AG</span></div></a>
         <ul class="nav-links">
             <li><a href="index.html">Forside</a></li>
             <li><a href="projekter.html">Projekter</a></li>
