@@ -3,7 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projekter | Albert Grubbe</title>
+    <title>Projekter & Portfolio | Webdesign af Albert Grubbe</title>
+    <meta name="description" content="Se mine seneste webdesign-projekter. Professionelle hjemmesider med fokus på hastighed, design og SEO. Se eksempler og få inspiration til dit eget projekt.">
+    <link rel="canonical" href="https://albertgrubbe.dk/projekter.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Projekter & Portfolio | Webdesign af Albert Grubbe">
+    <meta property="og:description" content="Se mine seneste webdesign-projekter. Professionelle hjemmesider med fokus på hastighed, design og SEO.">
+    <meta property="og:url" content="https://albertgrubbe.dk/projekter.html">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="da_DK">
+    <meta property="og:site_name" content="Albert Grubbe">
+    <meta property="og:image" content="https://albertgrubbe.dk/logo.png">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%228%22 fill=%22%2306060b%22/><text x=%2232%22 y=%2243%22 font-family=%22Arial,sans-serif%22 font-weight=%22900%22 font-size=%2228%22 fill=%22white%22 text-anchor=%22middle%22 letter-spacing=%22-2%22>AG</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -101,21 +114,13 @@
             align-items: center;
         }
 
-        .logo-icon {
-            font-size: 1.6rem;
+        .logo-text {
+            font-size: 1.5rem;
             font-weight: 900;
-            letter-spacing: -0.08em;
+            letter-spacing: -2px;
             color: #fff;
             line-height: 1;
-            position: relative;
-            display: inline-block;
-        }
-
-        .logo-icon span {
-            background: var(--grad);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            background: none;
         }
 
         .nav-links {
@@ -129,10 +134,10 @@
             text-decoration: none;
             font-size: 0.88rem;
             font-weight: 500;
-            transition: color 0.25s;
+            transition: color 0.3s ease;
         }
 
-        .nav-links a:hover { color: #fff; }
+        .nav-links a:hover { color: #a855f7; }
 
         .nav-toggle {
             display: none;
@@ -379,6 +384,12 @@
             text-align: center;
         }
 
+        .footer-logo {
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
         .footer-links {
             display: flex;
             justify-content: center;
@@ -482,7 +493,7 @@
 <!-- ════════════════════════ NAV ══════════════════════════════════ -->
 <nav>
     <div class="container">
-        <a href="index.html" class="logo"><div class="logo-icon"><span>AG</span></div></a>
+        <a href="index.html" class="logo"><div class="logo-text">AG</div></a>
         <ul class="nav-links">
             <li><a href="index.html">Forside</a></li>
             <li><a href="projekter.html">Projekter</a></li>
@@ -554,6 +565,7 @@
 <!-- ════════════════════════ FOOTER ═══════════════════════════════ -->
 <footer>
     <div class="container">
+        <a href="index.html" class="footer-logo"><div class="logo-icon"><span>AG</span></div></a>
         <div class="footer-links">
             <a href="mailto:kontakt.albertgrubbe@outlook.dk" aria-label="Email">@</a>
             <a href="#" aria-label="LinkedIn">in</a>
@@ -672,6 +684,22 @@
         material.uniforms.iResolution.value.set(window.innerWidth, window.innerHeight);
     });
 })();
+</script>
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Projekter & Portfolio",
+  "description": "Se mine seneste webdesign-projekter. Professionelle hjemmesider med fokus på hastighed, design og SEO.",
+  "url": "https://albertgrubbe.dk/projekter.html",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Albert Grubbe",
+    "url": "https://albertgrubbe.dk"
+  }
+}
 </script>
 
 </body>
