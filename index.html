@@ -627,6 +627,226 @@
             font-weight: 800;
         }
 
+        /* ══════════════════════ PRIS-BEREGNER (quiz) ═════════════════ */
+        .calculator {
+            max-width: 760px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 44px 44px 48px;
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+        }
+
+        /* Progress bar i toppen */
+        .calc-progress {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 36px;
+        }
+
+        .calc-progress-track {
+            flex: 1;
+            height: 4px;
+            background: var(--surface);
+            border-radius: 100px;
+            overflow: hidden;
+        }
+
+        .calc-progress-fill {
+            height: 100%;
+            width: 33.333%;
+            background: var(--grad);
+            border-radius: 100px;
+            transition: width 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .calc-progress-text {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            letter-spacing: 0.06em;
+            min-width: 70px;
+            text-align: right;
+        }
+
+        /* Steps stables — kun den aktive vises, resten fades ud */
+        .calc-steps {
+            position: relative;
+        }
+
+        .calc-step {
+            opacity: 0;
+            transform: translateX(24px);
+            transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
+            pointer-events: none;
+            position: absolute;
+            top: 0; left: 0; right: 0;
+        }
+
+        .calc-step.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+            position: relative;
+        }
+
+        .calc-step-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: -0.01em;
+        }
+
+        .calc-step-sub {
+            font-size: 0.92rem;
+            color: var(--text-sub);
+            margin-bottom: 24px;
+        }
+
+        /* Option-knapper (Type / Hastighed) */
+        .calc-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .calc-options.cols-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .calc-option {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-sm);
+            padding: 22px 18px;
+            cursor: pointer;
+            text-align: left;
+            transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+            color: var(--text);
+            font-family: inherit;
+        }
+
+        .calc-option:hover {
+            border-color: var(--border-h);
+            background: var(--bg-card-h);
+        }
+
+        .calc-option.active {
+            border-color: var(--accent);
+            background: rgba(110,142,251,0.08);
+            box-shadow: 0 0 0 1px var(--accent), 0 0 30px rgba(110,142,251,0.18);
+        }
+
+        .calc-option strong {
+            display: block;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .calc-option.active strong { color: var(--accent); }
+
+        .calc-option span {
+            font-size: 0.82rem;
+            color: var(--text-sub);
+            line-height: 1.5;
+        }
+
+        /* Add-on chips */
+        .calc-addons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .calc-addon {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            user-select: none;
+            transition: border-color 0.25s, background 0.25s, color 0.25s;
+        }
+
+        .calc-addon input { display: none; }
+
+        .calc-addon:hover {
+            border-color: var(--border-h);
+            background: var(--bg-card-h);
+        }
+
+        .calc-addon.checked {
+            border-color: rgba(110,142,251,0.45);
+            background: rgba(110,142,251,0.10);
+            color: var(--accent);
+        }
+
+        .calc-addon.checked::before {
+            content: '\2713';
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        /* Step-navigation */
+        .calc-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .calc-nav .btn {
+            padding: 12px 24px;
+            font-size: 0.9rem;
+        }
+
+        .calc-nav-spacer { flex: 1; }
+
+        /* Live estimat-output */
+        .calc-result {
+            margin-top: 36px;
+            padding-top: 28px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .calc-result-label {
+            font-size: 0.78rem;
+            color: var(--text-sub);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .calc-result-amount {
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: var(--grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 14px;
+            line-height: 1.2;
+            transition: opacity 0.3s;
+        }
+
+        .calc-result-note {
+            font-size: 0.82rem;
+            color: var(--text-sub);
+            margin-bottom: 22px;
+        }
+
         /* ══════════════════════ PORTFOLIO ════════════════════════════ */
         .portfolio-grid {
             display: grid;
@@ -675,6 +895,88 @@
             background: var(--surface);
         }
 
+        /* ── Browser-mockup m. scroll-på-hover ── */
+        .browser-mockup {
+            position: relative;
+            background: linear-gradient(180deg, #15151f 0%, #0e0e17 100%);
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        /* Header m. tre prikker (rød / gul / grøn) */
+        .browser-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            height: 34px;
+            padding: 0 14px;
+            background: #15151f;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            z-index: 2;
+        }
+
+        .browser-header .dot {
+            width: 11px; height: 11px;
+            border-radius: 50%;
+            display: block;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.18);
+        }
+        .browser-header .dot.red    { background: #ff5f57; }
+        .browser-header .dot.yellow { background: #febc2e; }
+        .browser-header .dot.green  { background: #28c840; }
+
+        /* Subtil "URL-bar" til højre — autentisk browser-look */
+        .browser-header::after {
+            content: '';
+            flex: 1;
+            margin-left: 10px;
+            height: 14px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 4px;
+        }
+
+        /* Scroll-container — fast højde + overflow hidden */
+        .screenshot-container {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+            background: #0a0a12;
+        }
+
+        .screenshot-container img {
+            display: block;
+            width: 100%;
+            height: auto;
+            transform: translateY(0);
+            transition: transform 4s ease-in-out;
+            will-change: transform;
+        }
+
+        /* Hover: rul ned så bunden af siden vises */
+        .portfolio-card:hover .screenshot-container img {
+            transform: translateY(calc(-100% + 250px));
+        }
+
+        /* Subtil purple glow ved hover — matcher accent-paletten */
+        .browser-mockup::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            box-shadow: inset 0 0 0 1px rgba(167,119,227,0.0);
+            transition: box-shadow 0.4s ease;
+        }
+        .portfolio-card:hover .browser-mockup::after {
+            box-shadow: inset 0 0 0 1px rgba(167,119,227,0.18);
+        }
+
+        /* Respektér prefers-reduced-motion */
+        @media (prefers-reduced-motion: reduce) {
+            .screenshot-container img { transition: none; }
+            .portfolio-card:hover .screenshot-container img { transform: none; }
+        }
+
         .portfolio-body {
             padding: 28px 30px 34px;
         }
@@ -690,6 +992,29 @@
             color: var(--text-sub);
             font-size: 0.94rem;
             line-height: 1.75;
+        }
+
+        /* Resultat-badge på portfolio-kort (f.eks. "20% vækst") */
+        .portfolio-result {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 18px;
+            padding: 7px 14px;
+            background: rgba(110,142,251,0.08);
+            border: 1px solid rgba(110,142,251,0.18);
+            border-radius: 100px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .portfolio-result::before {
+            content: '';
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
         }
 
         /* ══════════════════════ TESTIMONIALS ═════════════════════════ */
@@ -762,6 +1087,32 @@
             font-size: 0.8rem;
             color: var(--text-sub);
             margin-top: 2px;
+        }
+
+        /* Forfatter-blok med avatar (profilbillede-pladsholder) */
+        .testimonial-meta {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .testimonial-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--grad);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+            flex-shrink: 0;
+            object-fit: cover;
         }
 
         /* ══════════════════════ ABOUT ════════════════════════════════ */
@@ -976,23 +1327,27 @@
         }
 
         .footer-links a {
-            width: 40px; height: 40px;
-            display: flex;
+            width: 42px; height: 42px;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             border: 1px solid var(--border);
             border-radius: 10px;
             color: var(--text-sub);
             text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.3s;
+            transition: border-color 0.3s, background 0.3s, color 0.3s, transform 0.3s;
+        }
+
+        .footer-links a svg {
+            width: 18px;
+            height: 18px;
         }
 
         .footer-links a:hover {
             border-color: rgba(110,142,251,0.25);
             background: rgba(110,142,251,0.05);
             color: var(--accent);
+            transform: translateY(-2px);
         }
 
         footer p {
@@ -1079,6 +1434,10 @@
                 gap: 20px;
                 padding: 32px;
             }
+
+            .calculator { padding: 36px 28px; }
+            .calc-options,
+            .calc-options.cols-2 { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 640px) {
@@ -1124,10 +1483,10 @@
         <a href="index.html" class="logo"><div class="logo-text">AG</div></a>
         <ul class="nav-links">
             <li><a href="index.html">Forside</a></li>
-            <li><a href="projekter.html">Projekter</a></li>
-            <li><a href="index.html#priser">Priser</a></li>
-            <li><a href="reviews.html">Anmeldelser</a></li>
-            <li><a href="index.html#kontakt">Kontakt</a></li>
+            <li><a href="#portfolio">Projekter</a></li>
+            <li><a href="#priser">Priser</a></li>
+            <li><a href="#testimonials">Anmeldelser</a></li>
+            <li><a href="#kontakt">Kontakt</a></li>
         </ul>
         <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
             <span></span><span></span><span></span>
@@ -1151,7 +1510,7 @@
             </div>
             <div class="hero-trust">
                 <span><span class="check">&#10003;</span> Hurtig levering</span>
-                <span><span class="check">&#10003;</span> Professionel rådgivning</span>
+                <span><span class="check">&#10003;</span> Fokus på hastighed &amp; konvertering</span>
             </div>
         </div>
     </div>
@@ -1185,68 +1544,107 @@
     </div>
 </section>
 
-<!-- ════════════════════════ PRICING ══════════════════════════════ -->
+<!-- ════════════════════════ PORTFOLIO ════════════════════════════ -->
+<section class="section" id="portfolio">
+    <div class="container">
+        <div class="section-header fade-up">
+            <p class="section-label">Projekter</p>
+            <h2 class="section-title">Udvalgte projekter</h2>
+            <p class="section-desc">Et udsnit af de seneste projekter jeg har bygget. Tryk på et kort for at se det live.</p>
+        </div>
+        <!-- Dynamisk grid — kort rendres af JS fra `portfolioProjects`-array -->
+        <div class="portfolio-grid" id="portfolioGrid"></div>
+    </div>
+</section>
+
+<!-- ════════════════════════ PRICING (interaktiv beregner) ════════ -->
 <section class="section" id="priser">
     <div class="container">
         <div class="section-header fade-up">
-            <p class="section-label">Prispakker</p>
-            <h2 class="section-title">Gennemsigtige priser, ingen overraskelser</h2>
-            <p class="section-desc">Her kan du se, hvad det koster. Alle pakker inkluderer responsivt design og grundlæggende SEO, så du er godt dækket ind fra start.</p>
+            <p class="section-label">Pris-estimering</p>
+            <h2 class="section-title">Få et estimat på dit projekt</h2>
+            <p class="section-desc">Vælg kompleksitet og tilvalg — så får du et budgetinterval med det samme. Helt uforpligtende.</p>
         </div>
-        <div class="pricing-grid">
 
-            <!-- Basis -->
-            <div class="price-card fade-up">
-                <p class="price-tier">Basis</p>
-                <p class="price-amount">4.995,- <small>kr</small></p>
-                <div class="price-monthly">+ 495,-/md. hosting &amp; vedligehold</div>
-                <p class="price-desc">Et godt valg hvis du er selvstændig eller freelancer og har brug for en professionel side, der gør et stærkt førstehåndsindtryk.</p>
-                <ul class="price-list">
-                    <li data-tip>One-page design<span class="tooltip">Hele din hjemmeside samlet på én lækker side. Det er overskueligt for brugeren og perfekt til at konvertere besøgende til kunder.</span></li>
-                    <li data-tip>Responsivt layout<span class="tooltip">Din side tilpasser sig automatisk, så den ser sprød ud på både iPhone, iPad og computerskærm.</span></li>
-                    <li data-tip>Kontaktformular<span class="tooltip">En direkte linje fra kunden til din indbakke. Ingen dikkedarer, bare nem kontakt.</span></li>
-                    <li data-tip>Hosting &amp; SSL inkluderet<span class="tooltip">Jeg sørger for "opbevaringen" af din side og det lille hængelås-ikon i browseren, så dine brugere kan surfe sikkert.</span></li>
-                    <li data-tip>Daglig backup<span class="tooltip">Hvis noget går galt, har vi en kopi fra i går. Du mister aldrig dit indhold.</span></li>
-                    <li data-tip>30 min. månedlig support/fixes<span class="tooltip">Har du brug for at få rettet en tekst eller skiftet et billede? Jeg fikser det hver måned uden ekstra regning.</span></li>
-                </ul>
-                <a href="#kontakt" class="btn btn-ghost">Kom i gang</a>
+        <!--
+            Interaktiv pris-beregner.
+            data-min / data-max attributter holder pris-intervaller (i DKK)
+            og læses af JS-modulet, så priser nemt kan justeres uden at røre logikken.
+        -->
+        <div class="calculator fade-up" id="priceCalculator">
+
+            <!-- Progress bar -->
+            <div class="calc-progress">
+                <div class="calc-progress-track">
+                    <div class="calc-progress-fill" id="calcProgressFill"></div>
+                </div>
+                <div class="calc-progress-text" id="calcProgressText">Trin 1 / 3</div>
             </div>
 
-            <!-- Erhverv -->
-            <div class="price-card pop fade-up">
-                <span class="price-badge">Mest populær</span>
-                <p class="price-tier">Erhverv</p>
-                <p class="price-amount">11.995,- <small>kr</small></p>
-                <div class="price-monthly">+ 595,-/md. hosting &amp; vedligehold</div>
-                <p class="price-desc">Til dig der driver en virksomhed og har brug for flere undersider, stærkere branding og avanceret funktionalitet.</p>
-                <ul class="price-list">
-                    <li>Alt i Basis-pakken</li>
-                    <li data-tip>Op til 5 undersider<span class="tooltip">Plads til at gå i dybden. F.eks. en dedikeret side til dine ydelser, en "Om os" og en blog.</span></li>
-                    <li data-tip>Skræddersyet design<span class="tooltip">Vi starter fra bunden. Intet standardskabelon-ræs – siden bliver bygget præcis efter din visuelle identitet.</span></li>
-                    <li data-tip>SEO-optimering<span class="tooltip">Jeg sætter siden op, så Google kan lide den. Det gør det markant nemmere for nye kunder at finde dig.</span></li>
-                    <li data-tip>Google Analytics opsætning<span class="tooltip">Se præcis hvor mange der besøger dig, og hvad de laver på siden. Data er vejen frem.</span></li>
-                    <li>1 times månedlig support/fixes</li>
-                </ul>
-                <a href="#kontakt" class="btn btn-primary">Vælg Erhverv</a>
+            <!-- Steps (kun den aktive vises — JS håndterer .active) -->
+            <div class="calc-steps">
+
+                <!-- ── Step 1: Type ────────────────────────────────── -->
+                <div class="calc-step active" data-step="0">
+                    <h3 class="calc-step-title">1. Hvilken type projekt?</h3>
+                    <p class="calc-step-sub">Vælg det niveau, der bedst matcher dit behov.</p>
+                    <div class="calc-options" role="radiogroup" aria-label="Projekt-type">
+                        <button type="button" class="calc-option" role="radio" data-step1 data-key="basis">
+                            <strong>Basis</strong>
+                            <span>Fra 2.495,- · One-pager til selvstændige &amp; freelancers</span>
+                        </button>
+                        <button type="button" class="calc-option" role="radio" data-step1 data-key="erhverv">
+                            <strong>Erhverv</strong>
+                            <span>Fra 4.495,- · Flere undersider, skræddersyet design</span>
+                        </button>
+                        <button type="button" class="calc-option" role="radio" data-step1 data-key="enterprise">
+                            <strong>Enterprise</strong>
+                            <span>Fra 8.995,- · Avanceret, integrationer, skala</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ── Step 2: Hastighed ──────────────────────────── -->
+                <div class="calc-step" data-step="1">
+                    <h3 class="calc-step-title">2. Hvor hurtigt skal det være?</h3>
+                    <p class="calc-step-sub">"Haster" lægger en multiplier oveni for prioriteret levering.</p>
+                    <div class="calc-options cols-2" role="radiogroup" aria-label="Leveringstid">
+                        <button type="button" class="calc-option" role="radio" data-step2 data-key="normal">
+                            <strong>Normal levering</strong>
+                            <span>Standard tidsplan (3–6 uger)</span>
+                        </button>
+                        <button type="button" class="calc-option" role="radio" data-step2 data-key="haster">
+                            <strong>Haster</strong>
+                            <span>Prioriteret produktion (1–2 uger)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ── Step 3: Tilvalg ────────────────────────────── -->
+                <div class="calc-step" data-step="2">
+                    <h3 class="calc-step-title">3. Tilvalg (valgfrit)</h3>
+                    <p class="calc-step-sub">Vælg de ekstra ydelser, du har brug for.</p>
+                    <div class="calc-addons" id="calcAddons">
+                        <!-- JS rendrer add-ons baseret på config.addonPrices -->
+                    </div>
+                </div>
+
             </div>
 
-            <!-- Webshop -->
-            <div class="price-card fade-up">
-                <p class="price-tier">Webshop</p>
-                <p class="price-amount">19.995,- <small>kr</small></p>
-                <div class="price-monthly">+ 795,-/md. hosting &amp; vedligehold</div>
-                <p class="price-desc">Vil du sælge online? Så bygger jeg en komplet webshop til dig med betaling, produktstyring og alt hvad du skal bruge.</p>
-                <ul class="price-list">
-                    <li>Alt i Erhverv-pakken</li>
-                    <li>Komplet e-handel opsætning</li>
-                    <li data-tip>Betalingssystem<span class="tooltip">Gør det muligt for dine kunder at betale med kort eller MobilePay direkte på siden.</span></li>
-                    <li data-tip>Produktkatalog &amp; ordrestyring<span class="tooltip">Et nemt system bagved, hvor du selv kan oprette varer, styre lageret og printe labels.</span></li>
-                    <li data-tip>Fragtintegration<span class="tooltip">Automatisk beregning af fragtpriser og integration med f.eks. GLS eller PostNord, så det er nemt at sende pakker.</span></li>
-                    <li>1,5 times månedlig support/fixes</li>
-                </ul>
-                <a href="#kontakt" class="btn btn-ghost">Kom i gang</a>
+            <!-- Step-navigation -->
+            <div class="calc-nav">
+                <button type="button" class="btn btn-ghost" id="calcPrev" disabled>&larr; Tilbage</button>
+                <div class="calc-nav-spacer"></div>
+                <button type="button" class="btn btn-primary" id="calcNext">Næste &rarr;</button>
             </div>
 
+            <!-- Live estimat -->
+            <div class="calc-result" aria-live="polite">
+                <div class="calc-result-label">Estimeret budget</div>
+                <div class="calc-result-amount" id="calcAmount">– vælg type for at starte –</div>
+                <p class="calc-result-note">Dette er et estimat – kontakt mig for et fast tilbud.</p>
+                <a href="#kontakt" class="btn btn-primary">F&aring; et fast tilbud &rarr;</a>
+            </div>
         </div>
 
         <!-- Hvorfor serviceaftale -->
@@ -1281,6 +1679,45 @@
                     <p>Min filosofi er simpel: Det skal være hurtigt, det skal se skarpt ud, og det skal virke. Jeg droppede de smarte ord for længe siden til fordel for rent håndværk og kode, der rykker. Skal vi bygge noget fedt sammen?</p>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════ TESTIMONIALS ═════════════════════════ -->
+<section class="section" id="testimonials">
+    <div class="container">
+        <div class="section-header fade-up">
+            <p class="section-label">Anmeldelser</p>
+            <h2 class="section-title">Hvad mine kunder siger</h2>
+            <p class="section-desc">Ærlig feedback fra dem jeg har arbejdet sammen med. Læs alle anmeldelser eller del din egen oplevelse.</p>
+        </div>
+        <div class="testimonials-grid">
+
+            <!--
+                Tomstand: Ingen anmeldelser endnu.
+                Når der kommer rigtige anmeldelser, erstattes dette kort med ét kort pr. anmeldelse:
+                <div class="testimonial-card fade-up">
+                    <div class="testimonial-quote-mark">&ldquo;</div>
+                    <blockquote>Citatet her...</blockquote>
+                    <div class="testimonial-meta">
+                        <img class="testimonial-avatar" src="img/kunde.jpg" alt="Navn">
+                        <div>
+                            <div class="testimonial-author">Navn Efternavn</div>
+                            <div class="testimonial-role">Titel, Virksomhed</div>
+                        </div>
+                    </div>
+                </div>
+            -->
+
+            <div class="testimonial-card fade-up" style="grid-column: 1 / -1; text-align: center; padding: 56px 40px;">
+                <div class="testimonial-quote-mark" style="margin: 0 auto 16px;">&ldquo;</div>
+                <blockquote style="max-width: 560px; margin: 0 auto 28px;">Anmeldelser er på vej. Har du arbejdet sammen med mig? Bliv den første til at dele din oplevelse — det betyder alt for små virksomheder som min.</blockquote>
+                <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+                    <a href="reviews.html" class="btn btn-ghost">Se anmeldelser</a>
+                    <a href="reviews.html#skriv-anmeldelse" class="btn btn-primary">Skriv en anmeldelse &rarr;</a>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
@@ -1347,11 +1784,27 @@
 <footer>
     <div class="container">
         <a href="index.html" class="footer-logo"><div class="logo-icon"><span>AG</span></div></a>
+
+        <!--
+            Sociale links — udskift "#" med rigtige URL'er når profilerne er klar.
+            target="_blank" + rel="noopener noreferrer" beskytter mod tabnabbing.
+        -->
         <div class="footer-links">
-            <a href="mailto:kontakt.albertgrubbe@outlook.dk" aria-label="Email">@</a>
-            <a href="https://github.com/albertgrubbe-commits" target="_blank" rel="noopener" aria-label="GitHub">gh</a>
-            <a href="#" aria-label="LinkedIn">in</a>
-            <a href="#" aria-label="Instagram">ig</a>
+            <a href="mailto:kontakt.albertgrubbe@outlook.dk" aria-label="Email">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/albert-grubbe-2b4862345/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+            </a>
+            <a href="https://github.com/albertgrubbe-commits" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.29-.01-1.04-.02-2.05-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.21.09 1.85 1.24 1.85 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23.96-.27 1.99-.4 3.01-.41 1.02.01 2.05.14 3.01.41 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22 0 1.6-.01 2.89-.01 3.28 0 .32.22.7.83.58C20.57 22.29 24 17.79 24 12.5 24 5.87 18.63.5 12 .5z"/></svg>
+            </a>
         </div>
         <p>&copy; 2026 Albert Grubbe. Alle rettigheder forbeholdes.</p>
     </div>
@@ -1372,19 +1825,245 @@
         document.documentElement.style.setProperty('--mxp', (e.clientX / window.innerWidth).toFixed(3));
     });
 
-    // Tooltip toggle på prisfeatures
-    document.querySelectorAll('.price-list li[data-tip]').forEach(li => {
-        li.addEventListener('click', (e) => {
-            const wasActive = li.classList.contains('active');
-            document.querySelectorAll('.price-list li.active').forEach(el => el.classList.remove('active'));
-            if (!wasActive) li.classList.add('active');
+    // ════════════════════════════════════════════════════════════════
+    //  DYNAMISK PORTFOLIO
+    //  Tilføj/fjern projekter i `portfolioProjects` — DOM bygges automatisk.
+    // ════════════════════════════════════════════════════════════════
+    (function initPortfolio() {
+        const grid = document.getElementById('portfolioGrid');
+        if (!grid) return;
+
+        // ─── PROJEKTER: ret/tilføj her ────────────────────────────────
+        const portfolioProjects = [
+            {
+                title:  'AlbertGrubbe.dk',
+                desc:   'Personlig portefølje med fokus på design, hastighed og automatiseret deployment.',
+                image:  'img/projekt1.png',
+                result: '100/100 Lighthouse-score',
+                url:    null   // sæt til en URL for at gøre kortet klikbart
+            }
+            // { title: 'Projekt 2', desc: '...', image: 'img/projekt2.png', result: '+30% konvertering', url: 'https://...' }
+        ];
+        // ──────────────────────────────────────────────────────────────
+
+        // Escape brugerinput → undgå XSS hvis arrayet en dag fyldes fra en API
+        const esc = s => String(s).replace(/[&<>"']/g, c => ({
+            '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+        }[c]));
+
+        // Render projekt-kort
+        portfolioProjects.forEach(p => {
+            const inner = `
+                <div class="browser-mockup">
+                    <div class="browser-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <div class="screenshot-container">
+                        <img src="${esc(p.image)}" alt="${esc(p.title)}" loading="lazy">
+                    </div>
+                </div>
+                <div class="portfolio-body">
+                    <h3>${esc(p.title)}</h3>
+                    <p>${esc(p.desc)}</p>
+                    ${p.result ? `<span class="portfolio-result">${esc(p.result)}</span>` : ''}
+                </div>
+            `;
+
+            // Hvis url er sat, wrap kortet i <a> så hele kortet er klikbart
+            const card = p.url
+                ? document.createElement('a')
+                : document.createElement('div');
+
+            card.className = 'portfolio-card fade-up';
+            if (p.url) {
+                card.href = p.url;
+                card.target = '_blank';
+                card.rel = 'noopener noreferrer';
+                card.style.textDecoration = 'none';
+                card.style.color = 'inherit';
+            }
+            card.innerHTML = inner;
+            grid.appendChild(card);
         });
-    });
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.price-list li[data-tip]')) {
-            document.querySelectorAll('.price-list li.active').forEach(el => el.classList.remove('active'));
+
+        // CTA-kort: "Se alle projekter"
+        const allCard = document.createElement('div');
+        allCard.className = 'portfolio-card fade-up';
+        allCard.style.cssText = 'display:flex;align-items:center;justify-content:center;min-height:320px;';
+        allCard.innerHTML = `
+            <div class="portfolio-body" style="text-align:center;padding:48px 32px;">
+                <h3>Se alle projekter</h3>
+                <p style="margin-bottom:24px;">Læs mere om mine seneste cases og se hele paletten af løsninger.</p>
+                <a href="projekter.html" class="btn btn-ghost">Gå til projekter &rarr;</a>
+            </div>`;
+        grid.appendChild(allCard);
+
+        // CTA-kort: "Skal dit projekt være det næste?"
+        const ctaCard = document.createElement('div');
+        ctaCard.className = 'portfolio-card fade-up';
+        ctaCard.style.cssText = 'display:flex;align-items:center;justify-content:center;min-height:320px;';
+        ctaCard.innerHTML = `
+            <div class="portfolio-body" style="text-align:center;padding:48px 32px;">
+                <h3>Skal dit projekt være det næste?</h3>
+                <p style="margin-bottom:24px;">Lad os tage en snak om, hvordan jeg kan hjælpe dig med at bygge noget fedt.</p>
+                <a href="#kontakt" class="btn btn-primary">Kontakt mig &rarr;</a>
+            </div>`;
+        grid.appendChild(ctaCard);
+
+        // Re-observe scroll-animationer på de nye kort
+        if (typeof io !== 'undefined') {
+            grid.querySelectorAll('.fade-up').forEach(el => io.observe(el));
         }
-    });
+    })();
+
+    // ════════════════════════════════════════════════════════════════
+    //  PRIS-BEREGNER QUIZ
+    //  Justér priser herunder — al UI/logik tilpasser sig automatisk.
+    // ════════════════════════════════════════════════════════════════
+    (function initPriceCalculator() {
+
+        // ─── KONFIG: ret priser her ───────────────────────────────────
+        const config = {
+            // "Fra"-priser pr. type (DKK) — den nedre grænse
+            basePrices: {
+                basis:      2495,   // Basis fra 2.495,-
+                erhverv:    4495,   // Erhverv fra 4.495,-
+                enterprise: 8995    // Enterprise fra 8.995,-
+            },
+
+            // Add-on-priser (DKK pr. valg, lægges oven i base)
+            addonPrices: {
+                'SEO-pakke':            1000,
+                'Webshop-integration':  1200,
+                'Avanceret design':      900,
+                'Tekstforfatning':       750,
+                'Vedligehold (12 mdr.)': 1100
+            },
+
+            // Multipliers pr. hastighed
+            multiplier: {
+                normal: 1.0,
+                haster: 1.2     // +20 % for prioriteret levering
+            },
+
+            // Spænd vist på estimatet (±%)
+            rangeSpread: 0.15,
+
+            // Afrund til nærmeste X DKK (for pænere tal)
+            roundTo: 100
+        };
+        // ──────────────────────────────────────────────────────────────
+
+        const calc = document.getElementById('priceCalculator');
+        if (!calc) return;
+
+        // DOM-refs
+        const steps        = calc.querySelectorAll('.calc-step');
+        const progressFill = document.getElementById('calcProgressFill');
+        const progressText = document.getElementById('calcProgressText');
+        const prevBtn      = document.getElementById('calcPrev');
+        const nextBtn      = document.getElementById('calcNext');
+        const output       = document.getElementById('calcAmount');
+        const addonsWrap   = document.getElementById('calcAddons');
+
+        // State
+        const state = {
+            step: 0,
+            type: null,      // 'basis' | 'erhverv' | 'enterprise'
+            speed: 'normal', // 'normal' | 'haster'
+            addons: new Set()
+        };
+
+        // Hjælpere
+        const fmt   = n => n.toLocaleString('da-DK');
+        const round = n => Math.round(n / config.roundTo) * config.roundTo;
+
+        // ─── Render add-ons fra config (step 3) ───
+        Object.keys(config.addonPrices).forEach(name => {
+            const label = document.createElement('label');
+            label.className = 'calc-addon';
+            label.innerHTML = `<input type="checkbox" data-addon value="${name}"> ${name}`;
+            addonsWrap.appendChild(label);
+
+            const input = label.querySelector('input');
+            input.addEventListener('change', () => {
+                label.classList.toggle('checked', input.checked);
+                if (input.checked) state.addons.add(name);
+                else state.addons.delete(name);
+                updatePrice();
+            });
+        });
+
+        // ─── Step 1: Type ───
+        calc.querySelectorAll('[data-step1]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                calc.querySelectorAll('[data-step1]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.type = btn.dataset.key;
+                updatePrice();
+            });
+        });
+
+        // ─── Step 2: Hastighed ───
+        calc.querySelectorAll('[data-step2]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                calc.querySelectorAll('[data-step2]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.speed = btn.dataset.key;
+                updatePrice();
+            });
+        });
+
+        // Sæt "Normal" som default valgt visuelt
+        calc.querySelector('[data-step2][data-key="normal"]').classList.add('active');
+
+        // ─── Pris-beregning ───
+        function updatePrice() {
+            if (!state.type) {
+                output.textContent = '– vælg type for at starte –';
+                return;
+            }
+
+            const base    = config.basePrices[state.type];
+            const addons  = [...state.addons].reduce((sum, n) => sum + config.addonPrices[n], 0);
+            const mult    = config.multiplier[state.speed] || 1;
+            const total   = (base + addons) * mult;
+
+            const min = round(total * (1 - config.rangeSpread));
+            const max = round(total * (1 + config.rangeSpread));
+
+            // Fade-effekt på opdatering
+            output.style.opacity = '0.4';
+            setTimeout(() => {
+                output.textContent = `${fmt(min)} – ${fmt(max)} DKK`;
+                output.style.opacity = '1';
+            }, 120);
+        }
+
+        // ─── Step-navigation + progress bar ───
+        function showStep(i) {
+            state.step = Math.max(0, Math.min(steps.length - 1, i));
+            steps.forEach((s, idx) => s.classList.toggle('active', idx === state.step));
+
+            const pct = ((state.step + 1) / steps.length) * 100;
+            progressFill.style.width = `${pct}%`;
+            progressText.textContent = `Trin ${state.step + 1} / ${steps.length}`;
+
+            prevBtn.disabled = state.step === 0;
+            nextBtn.textContent = state.step === steps.length - 1 ? 'Færdig' : 'Næste →';
+        }
+
+        prevBtn.addEventListener('click', () => showStep(state.step - 1));
+        nextBtn.addEventListener('click', () => {
+            if (state.step < steps.length - 1) showStep(state.step + 1);
+            else document.getElementById('kontakt')?.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Init
+        showStep(0);
+    })();
 
     // Web3Forms submit med succes-besked
     const form = document.getElementById('contactForm');
